@@ -1,3 +1,6 @@
-import Welcome from './app';
+import app from './app';
 
-Welcome('Gustavo');
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Listening to ${port}`);
+});

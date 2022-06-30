@@ -1,7 +1,7 @@
 class Home {
-  index(req, res, next) {
+  index(req, res) {
     res.json({
-      'Tudo certo': true,
+      tudoCerto: true,
     });
   }
 }

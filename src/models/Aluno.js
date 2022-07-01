@@ -2,11 +2,11 @@ import Sequelize, { Model } from 'sequelize';
 
 export default class Aluno extends Model {
   static init(sequelize) {
-    super.init(sequelize)({
-      firstName: Sequelize.String,
-      lastName: Sequelize.String,
-      email: Sequelize.String,
-      age: Sequelize.Integer,
+    super.init({
+      firstName: Sequelize.STRING,
+      lastName: Sequelize.STRING,
+      email: Sequelize.STRING,
+      age: Sequelize.INTEGER,
       height: Sequelize.FLOAT,
       weight: Sequelize.FLOAT,
     }, {

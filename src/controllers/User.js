@@ -21,7 +21,8 @@ class UserController {
     try {
       const users = await User.findAll(req.params.id);
       if (!users) return res.status(404).json({ message: 'No users found' });
-      return res.json(users);
+      const { id, email } = users;
+      return res.json({ id, email });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -39,7 +40,8 @@ class UserController {
       const user = await User.findByPk(req.params.id);
       if (!user) return res.status(404).json({ message: 'User not found' });
 
-      return res.json(user);
+      const { id, email } = user;
+      return res.json({ id, email });
     } catch (error) {
       return res.status(404).json({ message: 'No user found' });
     }
@@ -48,16 +50,11 @@ class UserController {
   // Update
   async update(req, res) {
     try {
-      if (!req.params.id && typeof req.params.id !== 'number') {
-        return res
-          .status(404)
-          .json({ message: 'ID not provided / ID does not exists' });
-      }
-
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.UserId);
       if (!user) {
         return res.status(404).json({ message: ' User does not exist' });
       }
+
       const updatedUser = await user.update(req.body);
       return res.json(updatedUser);
     } catch (error) {
@@ -68,15 +65,9 @@ class UserController {
   // Delete
   async delete(req, res) {
     try {
-      if (!req.params.id && typeof req.params.id !== 'number') {
-        return res
-          .status(404)
-          .json({ message: 'ID not provided / ID does not exists' });
-      }
-
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.UserId);
       if (!user) {
-        return res.status(404).json({ message: ' User does not exist' });
+        return res.status(404).json({ message: 'User does not exist' });
       }
 
       await user.destroy();

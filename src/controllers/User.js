@@ -9,7 +9,12 @@ class UserController {
         email: req.body.email,
         password: req.body.password,
       });
-      res.json(newUser);
+
+      const { username, email } = newUser;
+
+      res.json({
+        message: 'User successfully created', username, email,
+      });
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: error.message });
@@ -19,10 +24,9 @@ class UserController {
   // Index
   async index(req, res) {
     try {
-      const users = await User.findAll(req.params.id);
+      const users = await User.findAll({ attributes: ['id', 'username', 'email'] });
       if (!users) return res.status(404).json({ message: 'No users found' });
-      const { id, email } = users;
-      return res.json({ id, email });
+      return res.json(users);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -31,17 +35,11 @@ class UserController {
   // Show
   async show(req, res) {
     try {
-      if (!req.params.id && typeof req.params.id !== 'number') {
-        return res
-          .status(404)
-          .json({ message: 'ID not provided / ID does not exists' });
-      }
-
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.UserId);
       if (!user) return res.status(404).json({ message: 'User not found' });
 
-      const { id, email } = user;
-      return res.json({ id, email });
+      const { id, username, email } = user;
+      return res.json({ id, username, email });
     } catch (error) {
       return res.status(404).json({ message: 'No user found' });
     }
@@ -56,7 +54,10 @@ class UserController {
       }
 
       const updatedUser = await user.update(req.body);
-      return res.json(updatedUser);
+      const { id, username, email } = updatedUser;
+      return res.json({
+        message: 'User Successfully updated', id, username, email,
+      });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -66,9 +67,7 @@ class UserController {
   async delete(req, res) {
     try {
       const user = await User.findByPk(req.UserId);
-      if (!user) {
-        return res.status(404).json({ message: 'User does not exist' });
-      }
+      if (!user) return res.status(404).json({ message: 'User does not exist', user });
 
       await user.destroy();
       return res.status(200).json({ message: 'User has been deleted' });

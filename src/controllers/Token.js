@@ -20,7 +20,7 @@ class TokenController {
     if (!(await user.passwordIsValid(password))) return res.status(404).send({ message: 'Password is invalid' });
 
     const { id } = user;
-    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, {
+    const token = jwt.sign({ email, id }, process.env.TOKEN_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 

@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "build": "sucrase ./src -d ./dist --transform imports",
+    "build": "sucrase ./src -d ./dist --transforms imports",
     "start": "yarn dist/server.js"
   },
   "license": "MIT",

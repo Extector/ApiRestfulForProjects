@@ -1,3 +1,4 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true});exports. default = {
-  url: 'http://localhost:3000',
+  url: process.env.APP_URL,
+  port: process.env.APP_PORT,
 };
